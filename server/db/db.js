@@ -1,37 +1,11 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const { conStr } = require('./connection.js');
+const { Client } = require('pg')
 
-mongoose.connect(conStr, {useNewUrlParser: true});
+const client = new Client({
+  database: 'qa',
+  port: 5432,
+})
 
-const qaDB = mongoose.connection;
+client.connect();
 
-
-const qaSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  Qstn: String,
-  Ans: String,
-  Author: String,
-  Votes: Number,
-  Date: Date
-});
-
-const productSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  ProductId: Number,
-  ItemName: String,
-  Category: String,
-  QA: [qaSchema]
-}, {collection: 'qa-bank' });
-
-const Product = mongoose.model('qa-bank', productSchema);
-
-const findItem = (id) => {
-  return Product.find({ ProductId: id });
-};
-
-
-
-
-module.exports = { qaDB, Product, findItem };
+module.exports = client;
 

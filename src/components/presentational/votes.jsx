@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import QavCont from '../container/qa-vote-cont.jsx';
 
 export default class Vote extends Component {
   constructor(props) {
@@ -19,7 +20,6 @@ export default class Vote extends Component {
   // postGroups() {
   //   axios.post()
   // }
-
 
   upCount(count) {
     this.setState({
@@ -60,6 +60,7 @@ export default class Vote extends Component {
   }
 
   render() {
+    console.log(this.props.votes)
     return (
       <ul className="cont vote-cont">
         <li>

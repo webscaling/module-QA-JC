@@ -13,35 +13,29 @@ export default class App extends Component {
       id: 66,
       qaSearchBar: '',
       qArr: [
-        {'Qstn': 'Does they feel comfy?', 'Ans': 'Yessum', 'Votes': 4, 'Author': 'Jim', 'Date': 'October 5, 2016' },
-        {'Qstn': 'Does they feel just right?', 'Ans': 'Yarp', 'Votes': 5, 'Author': 'Darnell', 'Date': 'October 8, 2016' },
-        {'Qstn': 'Does they taste like real eggs?', 'Ans': 'Yes, they most certainly do!', 'Votes': 6, 'Author': 'Bob', 'Date': 'October 23, 2016' },
-        {'Qstn': 'Does they feel just right?', 'Ans': 'Yarp', 'Votes': 5, 'Author': 'Darnell', 'Date': 'October 8, 2016' }
+        {'question': 'Does they feel comfy?', 'answer': 'Yessum', 'votes': 4, 'author': 'Jim', 'date': 'October 5, 2016' },
+        {'question': 'Does they feel just right?', 'answer': 'Yarp', 'votes': 5, 'author': 'Darnell', 'date': 'October 8, 2016' },
+        {'question': 'Does they taste like real eggs?', 'answer': 'Yes, they most certainly do!', 'votes': 6, 'author': 'Bob', 'date': 'October 23, 2016' },
+        {'question': 'Does they feel just right?', 'answer': 'Yarp', 'votes': 5, 'author': 'Darnell', 'date': 'October 8, 2016' }
       ],
       cappedQArr: [
-        {'Qstn': 'Does they feel comfy?', 'Ans': 'Yessum', 'Votes': 4, 'Author': 'Jim', 'Date': 'October 5, 2016' },
-        {'Qstn': 'Does they feel just right?', 'Ans': 'Yarp', 'Votes': 5, 'Author': 'Darnell', 'Date': 'October 8, 2016' },
-        {'Qstn': 'Does they taste like real eggs?', 'Ans': 'Yes, they most certainly do!', 'Votes': 6, 'Author': 'Bob', 'Date': 'October 23, 2016' },
-        {'Qstn': 'Does they feel just right?', 'Ans': 'Yarp', 'Votes': 5, 'Author': 'Darnell', 'Date': 'October 8, 2016' }
+        {'question': 'Does they feel comfy?', 'answer': 'Yessum', 'votes': 4, 'author': 'Jim', 'date': 'October 5, 2016' },
+        {'question': 'Does they feel just right?', 'answer': 'Yarp', 'votes': 5, 'author': 'Darnell', 'date': 'October 8, 2016' },
+        {'question': 'Does they taste like real eggs?', 'answer': 'Yes, they most certainly do!', 'votes': 6, 'author': 'Bob', 'date': 'October 23, 2016' },
+        {'question': 'Does they feel just right?', 'answer': 'Yarp', 'votes': 5, 'author': 'Darnell', 'date': 'October 8, 2016' }
       ],
-      // remQ: (this.state.qArr - this.state.cappedQArr),
-      dns: 'http://18.223.28.104'
-      // 'http://localhost:3000'  'http://18.223.28.104' swap for local testing
+      dns: 'http://localhost:3000'
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   getItem(id) {
-    axios.get(`${this.state.dns}/item`, {
-      params: {
-        id: id
-      }
-    })
+    axios.get(`${this.state.dns}/item?productid=${id}`)
       .then(({ data }) => {
         // console.log('successful axios GET req getItem' + data);
         this.setState({
-          qArr: data.QA,
-          cappedQArr: data.QA.slice(0, 4)
+          qArr: data,
+          cappedQArr: data.slice(0, 4)
         });
       })
       .catch(err => {
@@ -53,6 +47,7 @@ export default class App extends Component {
     this.getItem(this.state.id);
     window.addEventListener('clickedProduct', event => {
       const product = event.detail;
+      console.log(event.detail)
       if (product) {
         this.setState({id: product}, () => {
           this.getItem(this.state.id);
